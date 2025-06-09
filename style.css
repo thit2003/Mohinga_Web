@@ -1,9 +1,9 @@
 /* Add this to the very top of your style.css if you haven't already */
 html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+  height: 100%; /* Ensure both html and body take the full viewport height */
+  margin: 0;   /* Remove any default browser margins */
+  padding: 0;  /* Remove any default browser padding */
+  overflow: hidden; /* Crucial: Prevents both horizontal and vertical scrolling on the entire page */
 }
 
 /* === Your Existing CSS === */
@@ -27,7 +27,7 @@ html, body {
   --star-color: #ffa600;
 
   /* Font sizes */
-  --fs-xxl: clamp(2.8rem, 9vw, 6rem);
+  --fs-xxl: clamp(2.8rem, 9vw, 6rem); /* Adjusted for better control */
   --fs-xl: 3rem;
   --fs-lg: 2rem;
   --fs-md: 1.5rem;
@@ -57,7 +57,7 @@ main{
   height: 100vh; /* Set main to exactly 100% of the viewport height */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; /* Ensure nothing within 'main' itself causes overflow */
 }
 
 .heading{
@@ -111,17 +111,17 @@ main{
 /* --- MODIFIED ORDER BUTTON STYLES START --- */
 .order-btn{
   position: absolute;
-  top: 50%; /* Moved down to be roughly in the middle of the screen */
-  right: 15%; /* Moved in from the right edge, percentage relative to 'main' */
+  top: 50%; /* Base: Moved down to be roughly in the middle of the screen */
+  right: 15%; /* Base: Moved in from the right edge, percentage relative to 'main' */
   border: 0;
   background-color: var(--primary-color);
   color: white;
-  width: 100px;
-  height: 100px;
+  width: 100px; /* Reduced base size */
+  height: 100px; /* Reduced base size */
   border-radius: 50%;
   font-weight: 600;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1rem; /* Adjusted font size for smaller button */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,7 +132,7 @@ main{
 }
 
 .order-btn-icon{
-  width: 1.25rem;
+  width: 1.25rem; /* Adjusted icon size for smaller button */
   height: 0;
   overflow: hidden;
   transition: height 200ms ease-in-out;
@@ -140,18 +140,18 @@ main{
 
 .order-btn:hover,
 .order-btn.hovering{
-  width: 130px;
-  height: 130px;
+  width: 130px; /* Reduced hover size */
+  height: 130px; /* Reduced hover size */
 }
 
 .order-btn:hover .order-btn-icon,
 .order-btn.hovering .order-btn-icon{
-  height: 1.25rem;
+  height: 1.25rem; /* Match icon size for hover state */
 }
 /* --- MODIFIED ORDER BUTTON STYLES END --- */
 
 .footer{
-  flex-grow: 1;
+  flex-grow: 1; /* By default, footer takes remaining space */
   display: flex;
   justify-content: space-between;
   align-items: end;
@@ -161,7 +161,7 @@ main{
 
 .review-container{
   width: 24rem;
-  position: relative;
+  position: relative; /* Base position, will be overridden for mobile */
 }
 
 .review-content{
@@ -176,7 +176,7 @@ main{
 }
 
 .review-btns{
-  position: absolute;
+  position: absolute; /* Base position, will be overridden for mobile */
   right: 0;
   bottom: 0;
   display: flex;
@@ -314,8 +314,8 @@ main{
 
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN MEDIA QUERY START --- */
   .order-btn {
-    top: 40%; /* Slightly lower for larger screens */
-    right: 15%; /* Adjusted further in for larger screens */
+    top: 40%; /* Adjusted for tablet/laptop vertical position */
+    right: 15%; /* Adjusted for tablet/laptop horizontal position */
     transform: translateY(-50%);
     width: 140px;
     height: 140px;
@@ -348,6 +348,7 @@ main{
   .review-container {
     margin-left: 0;
     margin-right: 0;
+    position: relative; /* Ensure it's relative for its internal absolute child (.review-btns) */
   }
 
   .review-btns {
@@ -393,8 +394,8 @@ main{
     width: 90px;
     height: 90px;
     font-size: 0.9rem;
-    top: 45%; /* Slightly higher on very small screens to fit */
-    right: 10%; /* Closer to the edge on very small screens */
+    top: 45%; /* Adjusted for very small screen vertical position */
+    right: 10%; /* Adjusted for very small screen horizontal position */
     transform: translateY(-50%);
   }
   .order-btn:hover,
@@ -410,4 +411,78 @@ main{
     height: 1rem;
   }
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN SMALL SCREEN MEDIA QUERY END --- */
+
+  /* --- REVIEW SECTION & FOOTER MOBILE REORDERING START --- */
+  .footer {
+    flex-grow: 1;
+    flex-direction: column; /* Stacks children vertically */
+    justify-content: center; /* Vertically center content if there's extra space */
+    align-items: center; /* Horizontally center content */
+    text-align: center; /* Fallback for text alignment */
+    gap: var(--space-md);
+    padding-bottom: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  .review-container {
+    width: 90%;
+    max-width: 24rem;
+    margin: var(--space-lg) auto var(--space-md) auto; /* Adjust vertical margin as needed */
+    text-align: center; /* Center text within the container */
+
+    position: static; /* Ensure it's part of the normal flow for flex ordering */
+    top: auto;
+    left: auto;
+    transform: none;
+    z-index: auto;
+
+    order: -1; /* Ensures the entire review block comes first in the footer */
+
+    /* NEW: Make review-container a flex container to reorder its children */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center children horizontally within this flex container */
+  }
+
+  /* NEW: Apply flex 'order' to children of .review-container to reorder them */
+  /* Assuming the HTML order might place buttons before text, these orders enforce desired visual flow */
+  /* This targets the actual stars, assuming they are directly within review-container or a flex wrapper */
+  .review-container .review-star,
+  .review-container .review-star:nth-child(1),
+  .review-container .review-star:nth-child(2),
+  .review-container .review-star:nth-child(3),
+  .review-container .review-star:nth-child(4),
+  .review-container .review-star:nth-child(5) {
+    order: 1; /* Place stars first */
+  }
+
+  .review-content {
+    text-align: center;
+    order: 2; /* Place review content second */
+  }
+
+  .reviewer {
+    text-align: center;
+    order: 3; /* Place reviewer third */
+  }
+
+  .review-btns {
+    position: static; /* Keep static so flex ordering works */
+    right: auto;
+    bottom: auto;
+    justify-content: center;
+    margin-top: var(--space-md);
+    order: 4; /* Place buttons last within the review-container */
+  }
+
+  .socials {
+    justify-content: center;
+    order: 0; /* Default order, comes after review-container */
+  }
+
+  .contact-link {
+    text-align: center;
+    order: 1; /* Comes after socials */
+  }
+  /* --- REVIEW SECTION & FOOTER MOBILE REORDERING END --- */
 }
