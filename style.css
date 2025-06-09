@@ -1,3 +1,4 @@
+/* Add this to the very top of your style.css if you haven't already */
 html, body {
   height: 100%; /* Ensure both html and body take the full viewport height */
   margin: 0;   /* Remove any default browser margins */
@@ -5,6 +6,7 @@ html, body {
   overflow: hidden; /* Crucial: Prevents both horizontal and vertical scrolling on the entire page */
 }
 
+/* === Your Existing CSS === */
 @font-face{
   font-family: MyanmarKhyay;
   src: url(assets/MyanmarKhyay.ttf);
@@ -54,7 +56,7 @@ main{
   position: relative;
   height: 100vh; /* Set main to exactly 100% of the viewport height */
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Stacks header, description, hero, and footer */
   overflow: hidden; /* Ensure nothing within 'main' itself causes overflow */
 }
 
@@ -106,6 +108,7 @@ main{
   height: 100%;
 }
 
+/* --- MODIFIED ORDER BUTTON STYLES START --- */
 .order-btn{
   position: absolute;
   top: 50%; /* Base: Moved down to be roughly in the middle of the screen */
@@ -145,19 +148,22 @@ main{
 .order-btn.hovering .order-btn-icon{
   height: 1.25rem; /* Match icon size for hover state */
 }
+/* --- MODIFIED ORDER BUTTON STYLES END --- */
 
 .footer{
-  flex-grow: 1; /* By default, footer takes remaining space */
+  flex-grow: 1; /* Pushes the footer to the bottom when main is flex-column */
   display: flex;
-  justify-content: space-between;
-  align-items: end;
+  justify-content: space-between; /* Spacing between review and socials/contact */
+  align-items: end; /* Aligns content to the bottom of the footer */
+  padding: var(--space-lg) var(--space-xl); /* Default padding for footer */
+  margin-top: auto; /* Pushes footer to the bottom of the main flex container */
 }
 
 /* Review */
 
 .review-container{
   width: 24rem;
-  position: relative; /* Base position, will be overridden for mobile */
+  position: relative; /* Keep this for internal absolute elements like review-btns */
 }
 
 .review-content{
@@ -172,7 +178,7 @@ main{
 }
 
 .review-btns{
-  position: absolute; /* Base position, will be overridden for mobile */
+  position: absolute; /* Default for desktop, relative to review-container */
   right: 0;
   bottom: 0;
   display: flex;
@@ -263,7 +269,7 @@ main{
 
 .socials{
   display: flex;
-  justify-content: end;
+  justify-content: end; /* For desktop, align right */
   gap: var(--space-xxs);
   margin-bottom: var(--space-xxs);
 }
@@ -278,7 +284,7 @@ main{
 
 .contact-link{
   display: block;
-  text-align: right;
+  text-align: right; /* For desktop, align right */
   text-decoration: none;
   color: var(--primary-color);
   font-size: var(--fs-md);
@@ -334,11 +340,12 @@ main{
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN MEDIA QUERY END --- */
 
   .footer {
-    flex-direction: row;
+    flex-direction: row; /* Ensure row direction for horizontal layout */
     justify-content: space-between;
     align-items: end;
     text-align: left;
-    margin-top: 0;
+    margin-top: auto; /* Keeps it pushed to bottom */
+    padding: var(--space-lg) 0; /* Updated: Remove left/right padding for sticking to edges */
   }
 
   .review-container {
@@ -408,40 +415,46 @@ main{
   }
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN SMALL SCREEN MEDIA QUERY END --- */
 
-  /* --- REVIEW SECTION & FOOTER MOBILE REORDERING START --- */
+  /* --- FOOTER & REVIEW SECTION MOBILE REORDERING START --- */
   .footer {
-    flex-grow: 1;
-    flex-direction: column; /* Stacks children vertically */
-    justify-content: center; /* Vertically center content if there's extra space */
+    flex-grow: 0; /* Footer should not take up all remaining space on mobile */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center; /* Center the two main blocks vertically */
     align-items: center; /* Horizontally center content */
     text-align: center; /* Fallback for text alignment */
-    gap: var(--space-md);
+    gap: var(--space-xl); /* Increased gap between review and socials/contact for mobile */
     padding-bottom: var(--space-md);
     margin-top: var(--space-xl);
   }
 
-  .review-container {
-    width: 90%;
-    max-width: 24rem;
-    margin: var(--space-lg) auto var(--space-md) auto; /* Adjust vertical margin as needed */
-    text-align: center; /* Center text within the container */
+  /* Order of main footer children */
+  .footer > div:nth-child(1) { /* This targets the .review-container */
+    order: -1; /* Make review-container appear first */
+  }
 
-    position: static; /* Ensure it's part of the normal flow for flex ordering */
-    top: auto;
+  .footer > div:nth-child(2) { /* This targets the div containing socials and contact-link */
+    order: 0; /* Make socials/contact appear second */
+  }
+
+  .review-container {
+    width: 90%;             /* Control width on small screens */
+    max-width: 24rem;       /* Keep your max-width */
+    margin: var(--space-lg) auto var(--space-md) auto; /* Add vertical margin, center horizontally */
+    text-align: center;     /* Center text content inside review-container */
+
+    position: static;       /* Crucial: Ensure it's static for normal flow */
+    top: auto;              /* Remove absolute positioning properties */
     left: auto;
     transform: none;
     z-index: auto;
 
-    order: -1; /* Ensures the entire review block comes first in the footer */
-
-    /* NEW: Make review-container a flex container to reorder its children */
+    /* Make review-container a flex container to reorder its children (stars, text, buttons) */
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center children horizontally within this flex container */
   }
 
-  /* Apply flex 'order' to children of .review-container to reorder them */
-  /* Assuming the HTML order might place buttons before text, these orders enforce desired visual flow */
+  /* Apply flex 'order' to children of .review-container to ensure buttons are under text */
   /* This targets the actual stars, assuming they are directly within review-container or a flex wrapper */
   .review-container .review-star,
   .review-container .review-star:nth-child(1),
@@ -472,13 +485,13 @@ main{
   }
 
   .socials {
-    justify-content: center;
-    order: 0; /* Default order, comes after review-container */
+    justify-content: center; /* Ensure social icons are centered on mobile */
+    /* Removed explicit order here as it's handled by .footer > div:nth-child(2) */
   }
 
   .contact-link {
-    text-align: center;
-    order: 1; /* Comes after socials */
+    text-align: center;     /* Ensure contact link is centered on mobile */
+    /* Removed explicit order here as it's handled by .footer > div:nth-child(2) */
   }
-  /* --- REVIEW SECTION & FOOTER MOBILE REORDERING END --- */
+  /* --- FOOTER & REVIEW SECTION MOBILE REORDERING END --- */
 }
