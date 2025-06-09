@@ -1,3 +1,11 @@
+/* Add this to the very top of your style.css if you haven't already */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 /* === Your Existing CSS === */
 @font-face{
   font-family: MyanmarKhyay;
@@ -46,10 +54,10 @@ body{
 main{
   padding: var(--space-lg) var(--space-xl);
   position: relative;
-  min-height: 100vh;
+  height: 100vh; /* Set main to exactly 100% of the viewport height */
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .heading{
@@ -99,31 +107,32 @@ main{
   width: 100%;
   height: 100%;
 }
+
 /* --- MODIFIED ORDER BUTTON STYLES START --- */
 .order-btn{
   position: absolute;
-  top: 10%;
-  right: 25%; /* Keep original right position for larger screens, adjust in media queries */
+  top: 50%; /* Moved down to be roughly in the middle of the screen */
+  right: 15%; /* Moved in from the right edge, percentage relative to 'main' */
   border: 0;
   background-color: var(--primary-color);
   color: white;
-  width: 100px; /* Reduced base size */
-  height: 100px; /* Reduced base size */
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   font-weight: 600;
   cursor: pointer;
-  font-size: 1rem; /* Adjusted font size for smaller button */
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transform: translate(50%, -50%); /* Original transform for initial position */
+  transform: translateY(-50%); /* Only vertical centering now */
   transition: width 200ms ease-in-out, height 200ms ease-in-out, transform 150ms;
-  z-index: 10; /* Ensure it's above other elements */
+  z-index: 10;
 }
 
 .order-btn-icon{
-  width: 1.25rem; /* Adjusted icon size for smaller button */
+  width: 1.25rem;
   height: 0;
   overflow: hidden;
   transition: height 200ms ease-in-out;
@@ -131,13 +140,13 @@ main{
 
 .order-btn:hover,
 .order-btn.hovering{
-  width: 130px; /* Reduced hover size */
-  height: 130px; /* Reduced hover size */
+  width: 130px;
+  height: 130px;
 }
 
 .order-btn:hover .order-btn-icon,
 .order-btn.hovering .order-btn-icon{
-  height: 1.25rem; /* Match icon size for hover state */
+  height: 1.25rem;
 }
 /* --- MODIFIED ORDER BUTTON STYLES END --- */
 
@@ -283,7 +292,7 @@ main{
   text-decoration: underline;
 }
 
-/* === Media Queries (from previous suggestion - ensure these are applied for full responsiveness) === */
+/* === Media Queries === */
 
 /* Tablets and small laptops (e.g., 768px and up) */
 @media (min-width: 768px) {
@@ -305,26 +314,26 @@ main{
 
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN MEDIA QUERY START --- */
   .order-btn {
-    top: 15%;
-    right: 15%;
-    transform: translate(0, -50%); /* Adjusted transform for non-centered position */
-    width: 140px; /* Original size for larger screens */
-    height: 140px; /* Original size for larger screens */
-    font-size: var(--fs-md); /* Original font size for larger screens */
+    top: 40%; /* Slightly lower for larger screens */
+    right: 15%; /* Adjusted further in for larger screens */
+    transform: translateY(-50%);
+    width: 140px;
+    height: 140px;
+    font-size: var(--fs-md);
   }
 
   .order-btn:hover,
   .order-btn.hovering{
-    width: 180px; /* Original hover size for larger screens */
-    height: 180px; /* Original hover size for larger screens */
+    width: 180px;
+    height: 180px;
   }
 
   .order-btn-icon{
-    width: 1.75rem; /* Original icon size for larger screens */
+    width: 1.75rem;
   }
   .order-btn:hover .order-btn-icon,
   .order-btn.hovering .order-btn-icon{
-    height: 1.75rem; /* Original icon size for larger screens */
+    height: 1.75rem;
   }
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN MEDIA QUERY END --- */
 
@@ -366,7 +375,7 @@ main{
   }
 
   .order-btn {
-    right: 20%; /* Further adjust if needed for very wide screens */
+    right: 20%; /* Keep consistent positioning relative to viewport */
   }
 }
 
@@ -381,12 +390,12 @@ main{
 
   /* --- MODIFIED ORDER BUTTON STYLES WITHIN SMALL SCREEN MEDIA QUERY START --- */
   .order-btn {
-    width: 90px; /* Slightly smaller for very small screens */
+    width: 90px;
     height: 90px;
-    font-size: 0.9rem; /* Smaller font for very small button */
-    top: 12%; /* Adjust vertical position for smaller screens */
-    right: 50%; /* Center it again for very small screens */
-    transform: translateX(50%); /* Center it again for very small screens */
+    font-size: 0.9rem;
+    top: 45%; /* Slightly higher on very small screens to fit */
+    right: 10%; /* Closer to the edge on very small screens */
+    transform: translateY(-50%);
   }
   .order-btn:hover,
   .order-btn.hovering{
@@ -394,7 +403,7 @@ main{
     height: 110px;
   }
   .order-btn-icon {
-    width: 1rem; /* Smaller icon */
+    width: 1rem;
   }
   .order-btn:hover .order-btn-icon,
   .order-btn.hovering .order-btn-icon{
