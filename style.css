@@ -1,0 +1,404 @@
+/* === Your Existing CSS === */
+@font-face{
+  font-family: MyanmarKhyay;
+  src: url(assets/MyanmarKhyay.ttf);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colors */
+  --primary-color: #e32811;
+  --secondary-color: #ffe5d5;
+  --star-color: #ffa600;
+
+  /* Font sizes */
+  --fs-xxl: clamp(2.8rem, 9vw, 6rem);
+  --fs-xl: 3rem;
+  --fs-lg: 2rem;
+  --fs-md: 1.5rem;
+  --fs-sm: 1.25rem;
+
+  /* Spacing */
+  --space-xxs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.25rem;
+  --space-xl: 2rem;
+}
+
+button{
+  font-family: "Smooch Sans", sans-serif;
+}
+
+body{
+  font-family: "Smooch Sans", sans-serif;
+  background-color: var(--secondary-color);
+}
+
+main{
+  padding: var(--space-lg) var(--space-xl);
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.heading{
+  font-size: var(--fs-xxl);
+  font-family: "MyanmarKhyay", sans-serif;
+}
+
+.description{
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  margin-top: var(--space-sm);
+}
+
+.description span{
+  font-size: var(--fs-xl);
+}
+
+.heading,
+.description{
+  text-align: center;
+  color: var(--primary-color);
+}
+
+/* Hero Image */
+.hero-img-container{
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 500px;
+}
+
+.hero-img{
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: bottom;
+  clip-path: circle(43.2% at 50% 80%);
+}
+
+.mask{
+  position: absolute;
+  inset: 0;
+  clip-path: circle(43.2% at 50% 80%);
+  transform-origin: bottom;
+  width: 100%;
+  height: 100%;
+}
+/* --- MODIFIED ORDER BUTTON STYLES START --- */
+.order-btn{
+  position: absolute;
+  top: 10%;
+  right: 25%; /* Keep original right position for larger screens, adjust in media queries */
+  border: 0;
+  background-color: var(--primary-color);
+  color: white;
+  width: 100px; /* Reduced base size */
+  height: 100px; /* Reduced base size */
+  border-radius: 50%;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem; /* Adjusted font size for smaller button */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(50%, -50%); /* Original transform for initial position */
+  transition: width 200ms ease-in-out, height 200ms ease-in-out, transform 150ms;
+  z-index: 10; /* Ensure it's above other elements */
+}
+
+.order-btn-icon{
+  width: 1.25rem; /* Adjusted icon size for smaller button */
+  height: 0;
+  overflow: hidden;
+  transition: height 200ms ease-in-out;
+}
+
+.order-btn:hover,
+.order-btn.hovering{
+  width: 130px; /* Reduced hover size */
+  height: 130px; /* Reduced hover size */
+}
+
+.order-btn:hover .order-btn-icon,
+.order-btn.hovering .order-btn-icon{
+  height: 1.25rem; /* Match icon size for hover state */
+}
+/* --- MODIFIED ORDER BUTTON STYLES END --- */
+
+.footer{
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+/* Review */
+
+.review-container{
+  width: 24rem;
+  position: relative;
+}
+
+.review-content{
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-sm);
+}
+
+.reviewer{
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  display: inline-block;
+}
+
+.review-btns{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.review-btn{
+  background-color: transparent;
+  border: 0;
+  font-size: var(--fs-lg);
+  cursor: pointer;
+  padding: 0 var(--space-xs);
+  line-height: 70%;
+  opacity: 0.7;
+}
+
+/* Animation */
+
+.review.exit{
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.review-content,
+.reviewer{
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideFadeIn 600ms ease forwards;
+}
+
+.review-content{
+  animation-delay: 200ms;
+}
+
+.reviewer{
+  animation-delay: 400ms;
+}
+
+.review-star{
+  opacity: 0;
+  animation: fadeIn 500ms ease forwards;
+}
+
+.review-star.faded{
+  opacity: 0;
+  animation: fadeInFaded 500ms ease forwards;
+}
+
+.review-star:nth-child(1){
+  animation-delay: 0.1s;
+}
+
+.review-star:nth-child(2){
+  animation-delay: 0.2s;
+}
+
+.review-star:nth-child(3){
+  animation-delay: 0.3s;
+}
+
+.review-star:nth-child(4){
+  animation-delay: 0.4s;
+}
+
+.review-star:nth-child(5){
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeIn{
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInFaded{
+  to {
+    opacity: 0.3;
+  }
+}
+
+@keyframes slideFadeIn {
+  to {
+    opacity: 1;
+    transform: translateX(0)
+  }
+}
+
+.socials{
+  display: flex;
+  justify-content: end;
+  gap: var(--space-xxs);
+  margin-bottom: var(--space-xxs);
+}
+
+.socials a {
+  opacity: 0.7;
+}
+
+.socials a:hover{
+  opacity: 1;
+}
+
+.contact-link{
+  display: block;
+  text-align: right;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-size: var(--fs-md);
+}
+
+.contact-link:hover{
+  text-decoration: underline;
+}
+
+/* === Media Queries (from previous suggestion - ensure these are applied for full responsiveness) === */
+
+/* Tablets and small laptops (e.g., 768px and up) */
+@media (min-width: 768px) {
+  main {
+    padding: var(--space-xl) var(--space-xxl);
+  }
+
+  .description {
+    font-size: var(--fs-xl);
+  }
+
+  .description span {
+    font-size: 3.5rem;
+  }
+
+  .hero-img-container {
+    max-width: 600px;
+  }
+
+  /* --- MODIFIED ORDER BUTTON STYLES WITHIN MEDIA QUERY START --- */
+  .order-btn {
+    top: 15%;
+    right: 15%;
+    transform: translate(0, -50%); /* Adjusted transform for non-centered position */
+    width: 140px; /* Original size for larger screens */
+    height: 140px; /* Original size for larger screens */
+    font-size: var(--fs-md); /* Original font size for larger screens */
+  }
+
+  .order-btn:hover,
+  .order-btn.hovering{
+    width: 180px; /* Original hover size for larger screens */
+    height: 180px; /* Original hover size for larger screens */
+  }
+
+  .order-btn-icon{
+    width: 1.75rem; /* Original icon size for larger screens */
+  }
+  .order-btn:hover .order-btn-icon,
+  .order-btn.hovering .order-btn-icon{
+    height: 1.75rem; /* Original icon size for larger screens */
+  }
+  /* --- MODIFIED ORDER BUTTON STYLES WITHIN MEDIA QUERY END --- */
+
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    text-align: left;
+    margin-top: 0;
+  }
+
+  .review-container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .review-btns {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    justify-content: flex-end;
+    margin-top: 0;
+  }
+
+  .socials {
+    justify-content: flex-end;
+    gap: var(--space-xxs);
+  }
+
+  .contact-link {
+    text-align: right;
+  }
+}
+
+/* Large Laptops and Desktops (e.g., 1024px and up) */
+@media (min-width: 1024px) {
+  .hero-img-container {
+    max-width: 700px;
+  }
+
+  .order-btn {
+    right: 20%; /* Further adjust if needed for very wide screens */
+  }
+}
+
+/* Specific adjustment for very small screens (e.g., up to 480px) */
+@media (max-width: 480px) {
+  .description {
+    font-size: var(--fs-md);
+  }
+  .description span {
+    font-size: var(--fs-lg);
+  }
+
+  /* --- MODIFIED ORDER BUTTON STYLES WITHIN SMALL SCREEN MEDIA QUERY START --- */
+  .order-btn {
+    width: 90px; /* Slightly smaller for very small screens */
+    height: 90px;
+    font-size: 0.9rem; /* Smaller font for very small button */
+    top: 12%; /* Adjust vertical position for smaller screens */
+    right: 50%; /* Center it again for very small screens */
+    transform: translateX(50%); /* Center it again for very small screens */
+  }
+  .order-btn:hover,
+  .order-btn.hovering{
+    width: 110px;
+    height: 110px;
+  }
+  .order-btn-icon {
+    width: 1rem; /* Smaller icon */
+  }
+  .order-btn:hover .order-btn-icon,
+  .order-btn.hovering .order-btn-icon{
+    height: 1rem;
+  }
+  /* --- MODIFIED ORDER BUTTON STYLES WITHIN SMALL SCREEN MEDIA QUERY END --- */
+}
